@@ -7,6 +7,7 @@ import ComputerDashboard from "../../features/computers/dashboard/ComputerDashbo
 import { v4 as uuid } from "uuid";
 
 function App() {
+  axios.defaults.baseURL = process.env.REACT_APP_AXIOS_BASEURL;
   const [computers, setComputers] = useState<Computer[]>([]);
   const [selectedComputer, setSelectedComputer] = useState<
     Computer | undefined
@@ -14,19 +15,15 @@ function App() {
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    axios
-      .get<Computer[]>("http://localhost:5000/api/computers")
-      .then((response) => {
-        setComputers(response.data);
-      });
+    axios.get<Computer[]>("/computers").then((response) => {
+      setComputers(response.data);
+    });
   }, []);
 
   function handleSelectComputer(id: string) {
-    axios
-      .get<Computer>(`http://localhost:5000/api/computers/${id}`)
-      .then((response) => {
-        setSelectedComputer(response.data);
-      });
+    axios.get<Computer>(`/computers/${id}`).then((response) => {
+      setSelectedComputer(response.data);
+    });
   }
 
   function handleCancelSelectComputer() {
@@ -46,9 +43,7 @@ function App() {
     computer.id = uuid();
     axios
       .post<void>(
-        `http://localhost:5000/api/${
-          computer.type === "Desktop" ? "desktops" : "laptops"
-        }`,
+        `${computer.type === "Desktop" ? "desktops" : "laptops"}`,
         computer
       )
       .then(() => {
@@ -59,7 +54,7 @@ function App() {
   }
 
   function handleDeleteComputer(id: string) {
-    axios.delete<void>(`http://localhost:5000/api/computers/${id}`).then(() => {
+    axios.delete<void>(`/computers/${id}`).then(() => {
       setComputers([...computers.filter((x) => x.id !== id)]);
     });
   }
