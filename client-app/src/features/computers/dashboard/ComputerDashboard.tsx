@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import { Grid } from "semantic-ui-react";
 import { Computer } from "../../../app/models/computer";
 import ComputerDetails from "../details/ComputerDetails";
@@ -14,7 +14,9 @@ interface Props {
   openForm: (id: string) => void;
   closeForm: () => void;
   createOrEdit: (computer: Computer) => void;
-  deleteComputer: (id: string) => void;
+  deleteComputer: (e: SyntheticEvent<HTMLButtonElement>, id: string) => void;
+  submitting: boolean;
+  target: string;
 }
 
 export default function ComputerDashboard({
@@ -27,6 +29,8 @@ export default function ComputerDashboard({
   openForm,
   closeForm,
   createOrEdit,
+  submitting,
+  target,
 }: Props) {
   return (
     <Grid>
@@ -35,6 +39,8 @@ export default function ComputerDashboard({
           computers={computers}
           selectComputer={selectComputer}
           deleteComputer={deleteComputer}
+          submitting={submitting}
+          target={target}
         />
       </Grid.Column>
       <Grid.Column width="6">
@@ -50,6 +56,7 @@ export default function ComputerDashboard({
             closeForm={closeForm}
             computer={selectedComputer}
             createOrEdit={createOrEdit}
+            submitting={submitting}
           />
         )}
       </Grid.Column>

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { Container } from "semantic-ui-react";
 import { Computer } from "../models/computer";
 import NavBar from "./NavBar";
 import ComputerDashboard from "../../features/computers/dashboard/ComputerDashboard";
 import { v4 as uuid } from "uuid";
+import LoadingComponent from "./LoadingComponent";
 
 function App() {
   axios.defaults.baseURL = process.env.REACT_APP_AXIOS_BASEURL;
@@ -13,11 +14,17 @@ function App() {
     Computer | undefined
   >(undefined);
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [target, setTarget] = useState("");
 
   useEffect(() => {
-    axios.get<Computer[]>("/computers").then((response) => {
-      setComputers(response.data);
-    });
+    axios
+      .get<Computer[]>("/computers")
+      .then((response) => {
+        setComputers(response.data);
+      })
+      .then(() => setLoading(false));
   }, []);
 
   function handleSelectComputer(id: string) {
@@ -40,6 +47,7 @@ function App() {
   }
 
   function handleCreateOrEditComputer(computer: Computer) {
+    setSubmitting(true);
     computer.id = uuid();
     axios
       .post<void>(
@@ -50,14 +58,25 @@ function App() {
         setComputers([...computers, computer]);
         setSelectedComputer(computer);
         setEditMode(false);
-      });
+      })
+      .then(() => setSubmitting(false));
   }
 
-  function handleDeleteComputer(id: string) {
-    axios.delete<void>(`/computers/${id}`).then(() => {
-      setComputers([...computers.filter((x) => x.id !== id)]);
-    });
+  function handleDeleteComputer(
+    event: SyntheticEvent<HTMLButtonElement>,
+    id: string
+  ) {
+    setSubmitting(true);
+    setTarget(event.currentTarget.name);
+    axios
+      .delete<void>(`/computers/${id}`)
+      .then(() => {
+        setComputers([...computers.filter((x) => x.id !== id)]);
+      })
+      .then(() => setSubmitting(false));
   }
+
+  if (loading) return <LoadingComponent content="Loading inventories" />;
 
   return (
     <>
@@ -73,6 +92,8 @@ function App() {
           closeForm={handleFormClose}
           createOrEdit={handleCreateOrEditComputer}
           deleteComputer={handleDeleteComputer}
+          submitting={submitting}
+          target={target}
         />
       </Container>
     </>

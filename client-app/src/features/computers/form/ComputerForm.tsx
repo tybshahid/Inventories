@@ -6,12 +6,14 @@ interface Props {
   computer: Computer | undefined;
   closeForm: () => void;
   createOrEdit: (computer: Computer) => void;
+  submitting: boolean;
 }
 
 export default function ComputerForm({
   computer: selectedComputer,
   closeForm,
   createOrEdit,
+  submitting,
 }: Props) {
   const initialState = selectedComputer ?? {
     id: "",
@@ -137,7 +139,13 @@ export default function ComputerForm({
             value={computer.screenSize}
           />
         )}
-        <Button floated="right" positive type="submit" content="Submit" />
+        <Button
+          loading={submitting}
+          floated="right"
+          positive
+          type="submit"
+          content="Submit"
+        />
         <Button
           onClick={closeForm}
           floated="right"

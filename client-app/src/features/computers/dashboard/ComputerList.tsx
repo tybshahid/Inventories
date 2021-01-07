@@ -1,17 +1,21 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import { Button, Item, Label, Segment } from "semantic-ui-react";
 import { Computer } from "../../../app/models/computer";
 
 interface Props {
   computers: Computer[];
   selectComputer: (id: string) => void;
-  deleteComputer: (id: string) => void;
+  deleteComputer: (e: SyntheticEvent<HTMLButtonElement>, id: string) => void;
+  submitting: boolean;
+  target: string;
 }
 
 export default function ComputerList({
   computers,
   selectComputer,
   deleteComputer,
+  submitting,
+  target,
 }: Props) {
   return (
     <Segment>
@@ -39,7 +43,9 @@ export default function ComputerList({
                   color="blue"
                 />
                 <Button
-                  onClick={() => deleteComputer(computer.id)}
+                  name={computer.id}
+                  loading={target === computer.id && submitting}
+                  onClick={(e) => deleteComputer(e, computer.id)}
                   floated="right"
                   content="Delete"
                   color="red"
