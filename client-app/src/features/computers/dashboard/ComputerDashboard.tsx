@@ -34,7 +34,7 @@ export default function ComputerDashboard({
 }: Props) {
   return (
     <Grid>
-      <Grid.Column width="10">
+      <Grid.Column computer={10} mobile={16}>
         <ComputerList
           computers={computers}
           selectComputer={selectComputer}
@@ -43,7 +43,7 @@ export default function ComputerDashboard({
           target={target}
         />
       </Grid.Column>
-      <Grid.Column width="6">
+      <Grid.Column computer={6} mobile={16}>
         {selectedComputer && !editMode && (
           <ComputerDetails
             computer={selectedComputer}
