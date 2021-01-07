@@ -28,9 +28,13 @@ function App() {
   }, []);
 
   function handleSelectComputer(id: string) {
-    axios.get<Computer>(`/computers/${id}`).then((response) => {
-      setSelectedComputer(response.data);
-    });
+    setLoading(true);
+    axios
+      .get<Computer>(`/computers/${id}`)
+      .then((response) => {
+        setSelectedComputer(response.data);
+      })
+      .then(() => setLoading(false));
   }
 
   function handleCancelSelectComputer() {
@@ -76,7 +80,7 @@ function App() {
       .then(() => setSubmitting(false));
   }
 
-  if (loading) return <LoadingComponent content="Loading inventories" />;
+  if (loading) return <LoadingComponent content="Loading..." />;
 
   return (
     <>
