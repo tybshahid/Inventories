@@ -33,17 +33,7 @@ namespace Persistence
                   UsbPorts = 6,
                   RamSlots = 6,
                   FormFactor = "SFF"
-                },
-                new Desktop
-                {
-                  Type = "Desktop",
-                  Model = "ThinkCentre M80q Tiny",
-                  Processor = "i7",
-                  Brand = "Lenovo",
-                  UsbPorts = 7,
-                  RamSlots = 7,
-                  FormFactor = "Tiny"
-                },
+                }
             };
 
             var laptops = new List<Laptop>
@@ -67,16 +57,6 @@ namespace Persistence
                   UsbPorts = 6,
                   RamSlots = 6,
                   ScreenSize = 15
-                },
-                new Laptop
-                {
-                  Type = "Laptop",
-                  Model = "ThinkPad T14 (AMD)",
-                  Processor = "i7",
-                  Brand = "Lenovo",
-                  UsbPorts = 7,
-                  RamSlots = 7,
-                  ScreenSize = 16
                 },
             };
 

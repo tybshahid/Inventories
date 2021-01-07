@@ -20,5 +20,11 @@ namespace API.Controllers
         {
             return await Mediator.Send(new Details.Query { Id = id });
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteComputer(Guid id)
+        {
+            return Ok(await Mediator.Send(new Delete.Command { Id = id }));
+        }
     }
 }
