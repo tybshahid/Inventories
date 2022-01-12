@@ -2,7 +2,7 @@
 
 This Application is a demo Inventory System where users can Add or Delete Computers (Desktops/Laptops).
 
-It's hosted as a Live Demo here: [Inventories](https://inventories.eleagues.net/)
+It's hosted as a Live Demo here: [Inventories](https://inventories.eleagues.online/)
 
 ### Backend:
 - .NET Core (net5.0).
